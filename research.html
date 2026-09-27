@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research — Rasika Karkare, Ph.D.</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="site-name" href="index.html">Rasika Karkare</a>
+    <a href="index.html">Home</a>
+    <a href="research.html" class="active">Research</a>
+    <a href="experience.html">Experience</a>
+    <a href="publications.html">Publications</a>
+    <a href="professional.html">Professional</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <h1 class="page-title">Research</h1>
+  <p class="page-sub">My research focuses on LLM evaluation, trustworthy and responsible AI, privacy-preserving
+    multimodal analytics, and robust machine learning. Across these areas, I study how AI systems can learn from
+    imperfect information, generate useful and reliable outputs, and preserve meaningful information while
+    respecting privacy and other constraints.</p>
+
+  <h2>LLM Evaluation, RAG, and Fine-Tuning</h2>
+  <p>My current LLM evaluation work investigates how different strategies affect the quality, reliability, and
+    interpretability of generated text. <strong>RAG-Eval</strong> examines retrieval-augmented generation, prompt
+    optimization, and parameter-efficient fine-tuning as distinct approaches to improving LLM performance.</p>
+
+  <h4>Retrieval-Augmented Generation</h4>
+  <p>In the retrieval-augmented setting, a question is embedded and matched to a reference corpus using similarity
+    search. The most relevant passages are then inserted into the model context before generation. The
+    retrieval-off condition answers from the prompt alone, providing a comparison for examining the contribution
+    of retrieved information.</p>
+
+  <h4>LoRA Fine-Tuning</h4>
+  <p>LoRA provides a separate approach to adapting the model. Rather than relying on retrieved context, low-rank
+    matrices are introduced into the model's attention layers while the underlying model parameters remain frozen.
+    The adapter is trained directly on input/output examples, allowing the experiment to examine direct parameter
+    adaptation using substantially fewer trainable parameters than full fine-tuning.</p>
+
+  <h4>RAG-Eval</h4>
+  <p><strong>RAG-Eval</strong> is a benchmarking framework for comparing zero-shot, prompt-optimized,
+    retrieval-augmented, and LoRA fine-tuned approaches for answering comprehension questions about health
+    advertisements.</p>
+
+  <table class="results">
+    <tr><th></th><th>Prompt optimization: off</th><th>Prompt optimization: on</th></tr>
+    <tr><td><strong>Retrieval: off</strong></td><td>Baseline zero-shot</td><td>Prompt-optimized only</td></tr>
+    <tr><td><strong>Retrieval: on</strong></td><td>RAG only</td><td>RAG + prompt-optimized</td></tr>
+  </table>
+  <p style="font-size:13.5px; color:var(--muted); margin-top:-6px;">LoRA fine-tuning is evaluated as a separate arm
+    rather than as a factor in the retrieval &times; prompt-optimization design.</p>
+
+  <h4>Evaluation Metrics</h4>
+  <ul>
+    <li>RAGAS faithfulness</li>
+    <li>Flesch&ndash;Kincaid readability</li>
+    <li>Language-model surprisal</li>
+    <li>Task-appropriate answer-quality measures</li>
+  </ul>
+
+  <p>Preliminary analyses examine the main effects of retrieval and prompt optimization and whether the two
+    factors interact. The current sample provides more statistical power for estimating main effects than for
+    detecting interaction effects.</p>
+
+  <h4>Pilot: Surprisal and Public Health Ad Comprehension</h4>
+  <p>A related pilot tests the same idea in a concrete, real-world setting: does LLM surprisal predict which parts
+    of a public health advertisement get misunderstood by a distracted listener (e.g., while driving)? Participants
+    listened to public health ads spanning 10 different topics sourced from the CDC, WHO, and similar
+    organizations, presented in "easy" and "complex" versions, while performing a concurrent reaction-time task
+    simulating divided attention, then answered comprehension questions.</p>
+
+  <figure class="photo-fig">
+    <img src="assets/surprisal_comprehension_pilot.png" alt="Scatter plot of comprehension score versus surprisal, separated by easy and complex ad versions, each with a downward-sloping regression line">
+    <figcaption>Pilot data: comprehension score vs. surprisal, split by ad complexity. Both trends point downward; the decline is steeper for complex ads.</figcaption>
+  </figure>
+
+  <table class="results">
+    <tr><th>Model (mixed-effects)</th><th>N</th><th>Groups</th><th>Surprisal coefficient</th><th>p-value</th></tr>
+    <tr><td>Ad-level mean comprehension</td><td class="num">38</td><td class="num">4</td><td class="num">&minus;0.102</td><td class="num">0.164</td></tr>
+    <tr><td>Item-level correct/incorrect</td><td class="num">125</td><td class="num">5</td><td class="num">0.000</td><td class="num">0.752</td></tr>
+  </table>
+  <p style="font-size:13.5px; color:var(--muted); margin-top:-6px;">Honest read at this pilot stage: the effect of
+    surprisal on comprehension is directionally negative in both models &mdash; higher surprisal, lower
+    comprehension &mdash; matching the hypothesis, but not statistically significant at this sample size. That's
+    expected for an n this small; the next step is scaling from this feasibility pilot to a 100-participant study
+    with adequate power to detect a medium effect.</p>
+
+  <h2>Agentic LLM Evaluation</h2>
+  <p>An in-progress extension uses the <strong>OpenAI SDK to orchestrate multiple LLM-based agents</strong> with
+    distinct roles. The system identifies <strong>high-surprisal segments</strong> in generated text and routes
+    them to specialized agents for further evaluation and revision.</p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 700 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="agent-title">
+      <title id="agent-title">High-surprisal segment routed to a communication agent and a medical agent in parallel, whose evaluations feed a rewriting agent that proposes a revision</title>
+      <defs>
+        <marker id="arrowA" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L6,3 L0,6 Z" fill="#333"/>
+        </marker>
+      </defs>
+      <rect x="10" y="70" width="150" height="50" fill="#fff" stroke="#999"/>
+      <text x="85" y="91" text-anchor="middle" font-family="Arial" font-size="10.5" font-weight="700" fill="#1a1a1a">High-surprisal</text>
+      <text x="85" y="105" text-anchor="middle" font-family="Arial" font-size="10.5" font-weight="700" fill="#1a1a1a">segment</text>
+
+      <path d="M160,90 L205,35 L260,35" fill="none" stroke="#333" marker-end="url(#arrowA)"/>
+      <path d="M160,100 L205,155 L260,155" fill="none" stroke="#333" marker-end="url(#arrowA)"/>
+
+      <rect x="260" y="10" width="170" height="50" fill="#fff" stroke="#999"/>
+      <text x="345" y="31" text-anchor="middle" font-family="Arial" font-size="11" font-weight="700" fill="#1a1a1a">Communication agent</text>
+      <text x="345" y="45" text-anchor="middle" font-family="Arial" font-size="9.5" fill="#555">clarity &amp; communication quality</text>
+
+      <rect x="260" y="130" width="170" height="50" fill="#fff" stroke="#999"/>
+      <text x="345" y="151" text-anchor="middle" font-family="Arial" font-size="11" font-weight="700" fill="#1a1a1a">Medical agent</text>
+      <text x="345" y="165" text-anchor="middle" font-family="Arial" font-size="9.5" fill="#555">health/medical-information view</text>
+
+      <path d="M430,35 L480,35 L480,85" fill="none" stroke="#333"/>
+      <path d="M430,155 L480,155 L480,105" fill="none" stroke="#333" marker-end="url(#arrowA)"/>
+
+      <rect x="480" y="80" width="150" height="50" fill="#fff" stroke="#999"/>
+      <text x="555" y="101" text-anchor="middle" font-family="Arial" font-size="11" font-weight="700" fill="#1a1a1a">Rewriting agent</text>
+      <text x="555" y="115" text-anchor="middle" font-family="Arial" font-size="9.5" fill="#555">proposes revision</text>
+    </svg>
+    <figcaption>Conceptual sketch of the agent architecture: specialized agents evaluate a flagged segment from different perspectives before a rewriting agent proposes a revision.</figcaption>
+  </figure>
+
+  <p>The agent architecture includes specialized roles such as a <strong>communication agent</strong> that
+    evaluates clarity and communication quality, a <strong>medical agent</strong> that evaluates content from a
+    health and medical-information perspective, and a <strong>rewriting agent</strong> that proposes revisions to
+    high-surprisal segments. Different LLMs can be used for different agent roles, allowing specialized model
+    capabilities to contribute to the evaluation and rewriting process.</p>
+
+  <p>This work explores a broader question in LLM evaluation: can multiple specialized AI agents collaboratively
+    identify potentially problematic language, evaluate it from different perspectives, and produce a more
+    understandable revision? The goal is to extend static benchmarking toward <strong>agentic evaluation of
+    AI-generated content</strong>, with an emphasis on surprisal, communication quality, domain-specific reasoning,
+    and controlled rewriting.</p>
+
+  <h2>Privacy-Preserving Video &amp; Voice Anonymization</h2>
+  <p>Classroom video recordings support research on teaching quality and student engagement, but they also
+    contain biometric and personally identifiable information, which can limit how freely such data can be
+    collected, shared, and reused.</p>
+
+  <p>With Guangjing Cao and my postdoctoral advisor Dr. Jacob Whitehill at WPI, I built a computer-vision pipeline that
+    constructs anonymized classroom video from detected people and background components, preserving their
+    original locations and poses rather than simply blurring or deleting portions of the raw footage. The
+    rendering process is designed to avoid retaining identifiable appearance information in the rendered
+    representation.</p>
+
+  <figure class="photo-fig">
+    <img src="assets/paper_fig1_pipeline.jpg" alt="Figure 1: pipeline diagram showing input classroom video processed by Detectron2 and DensePose in parallel, then combined into a rendered video">
+    <figcaption>Figure 1: per-frame Detectron2 (object/scene segmentation) and DensePose (human-body parsing) outputs are combined to construct the rendered video.</figcaption>
+  </figure>
+
+  <p>In a human-participant study (n=40) conducted on Prolific, participants annotated classroom
+    clips for activity type, teacher/student actions, group engagement, and teacher gaze direction under four
+    conditions: rendered without sound, rendered with sound, face-blurred, and raw.</p>
+
+  <figure class="photo-fig">
+    <img src="assets/paper_fig2_frames.jpg" alt="Figure 2: representative frames from left to right: Raw, Anonymized (rendered), and Blurred">
+    <figcaption>Figure 2: the same classroom moment under raw, rendered, and face-blurred conditions.</figcaption>
+  </figure>
+
+  <h4>Human-Participant Results</h4>
+  <p>Utility depended strongly on task. Coarse activity type showed no statistically significant accuracy drop
+    (repeated-measures ANOVA, p=0.388). Fine-grained actions and gaze direction were more sensitive: gaze accuracy
+    fell by roughly 40 percentage points from raw to rendered. Face blurring generally preserved more annotatable
+    signal than the rendering pipeline, although its effectiveness depends on successful face detection.</p>
+
+  <p>Removing audio produced the largest accuracy loss. Anonymization level was also associated with systematic
+    changes in the construct being measured: mean rated student engagement increased as anonymization decreased.</p>
+
+  <table class="results">
+    <tr><th>Condition</th><th>Actions F1</th><th>Gaze</th><th>Engagement</th></tr>
+    <tr><td>Rendered, no sound</td><td class="num">0.328</td><td class="num">&mdash;</td><td class="num">0.79</td></tr>
+    <tr><td>Rendered</td><td class="num">0.602</td><td class="num">0.322</td><td class="num">0.89</td></tr>
+    <tr><td>Blurred</td><td class="num">0.631</td><td class="num">0.578</td><td class="num">0.95</td></tr>
+    <tr><td>Raw</td><td class="num">0.684</td><td class="num">0.728</td><td class="num">0.97</td></tr>
+  </table>
+
+  <h4>Voice Anonymization</h4>
+  <p>Because removing audio produced the largest loss in annotatable information, a related research direction is
+    voice anonymization that preserves semantic and prosodic information while reducing speaker-identifying
+    characteristics. Candidate approaches include x-vector&ndash;based speaker anonymization and
+    prosody-preserving methods. Prior work suggests that effectiveness can depend on the choice of pseudo-speaker
+    representation.</p>
+
+  <h2>Applied ML for Financial Data Quality (Moody's Analytics)</h2>
+  <p>As a data scientist rotating across Predictive Analytics teams at Moody's, I worked on several projects
+    aimed at improving the completeness and reliability of the firmographic and risk data underlying Moody's
+    products.</p>
+
+  <h4>MESA &mdash; Automated Firm-Sizing Model</h4>
+  <p>MESA (Modeled Employees, Sales, and Assets) estimates a company's size &mdash; employee count, revenue, and
+    assets &mdash; by combining signals from financial filings, firmographic data (industry, ownership hierarchy,
+    geography), and technographic data (web presence, patents, public filings, trade data) into a stacking-ensemble
+    model. The estimates feed a range of downstream use cases, including master data management, marketing,
+    risk segmentation, and insurance underwriting, wherever a firm's true size isn't directly reported.</p>
+
+  <h4>Industry Code Classification</h4>
+  <p>Built a neural architecture to predict a firm's industry code when it's missing, combining an LSTM with
+    attention over unstructured text fields (firm name, trade description) with dense embeddings over categorical
+    firmographic fields (country of incorporation, legal form, size category), concatenated into a final
+    classification layer. A recurring practical challenge was noisy, multilingual trade-description text &mdash;
+    untranslated one-word descriptions in Portuguese, garbled or irrelevant entries in Chinese and Korean sources
+    &mdash; which motivated follow-on work on translation, noise removal, and ranking multiple plausible industry
+    codes per firm rather than predicting a single best guess.</p>
+
+  <h4>Reputation Risk Score</h4>
+  <p>Designed a system that scores entities on a four-tier reputation scale (Good, Neutral, Adverse, Severe) by
+    combining adverse-media news coverage with dedicated ESG, credit-risk, and compliance-risk sub-models that
+    feed into a central scoring model, integrating financial news sentiment with quantitative financial ratios.
+    The system also generates an automated narrative summary whenever an entity's score shifts sharply enough to
+    warrant explanation. This work drove a 15% improvement in reputation risk scoring accuracy against internal
+    and external validation datasets.</p>
+
+  <h2>Post-Hurricane Building Damage Classification from Satellite Imagery</h2>
+  <p>With Alison Heslin at Moody's Analytics CRE Research, during a quantitative researcher internship,
+    replicated and extended a published deep-learning approach (Cao et al., "Building Damage Annotation on
+    Post-Hurricane Satellite Imagery Based on Convolutional Neural Networks") for classifying building-level
+    damage from Hurricane Harvey satellite imagery, with building damage/no-damage labels drawn from crowdsourced
+    annotation and OpenStreetMap building coordinates.</p>
+
+  <p>A central question was whether a much cheaper, freely available data source could replicate results
+    obtained from expensive commercial imagery: the original paper used 0.46m-resolution GeoEye-1 imagery, so
+    this work also replicated the pipeline on free, open-source 10m-resolution Sentinel-2 imagery to test whether
+    the ~20&times; drop in resolution still preserved enough signal for reliable classification. Several
+    classifiers were compared: a CNN trained from scratch, and transfer learning with pretrained ResNet50 and
+    VGG16 backbones, across different activation functions, optimizers, regularization, and data augmentation
+    strategies.</p>
+
+  <figure class="photo-fig">
+    <img src="assets/hurricane_pca.jpg" alt="PCA scatter plot of damage vs no-damage building image patches in raw RGB colorspace, showing substantial overlap between the two classes">
+    <figcaption>Damage (red) and no-damage (green) properties overlap heavily in a two-component PCA of raw RGB pixel values &mdash; motivating a learned CNN feature representation rather than relying on color alone.</figcaption>
+  </figure>
+
+  <p>The best model, evaluated on the GeoEye-1 replication, reached an AUC of 0.997 on a balanced test set and
+    0.981 on an unbalanced test set for damage/no-damage classification.</p>
+
+  <figure class="photo-fig">
+    <img src="assets/hurricane_roc.jpg" alt="ROC curves for the best model on balanced and unbalanced test sets, with AUC of 0.997 and 0.981 respectively">
+    <figcaption>ROC curves for the best model on balanced (AUC=0.997) and unbalanced (AUC=0.981) test sets.</figcaption>
+  </figure>
+
+  <p>Identified future directions included incorporating additional spectral bands, augmenting with other data
+    sources such as LiDAR or RADAR, self-supervised pretraining prior to classification, and testing
+    generalization on other hurricane events.</p>
+
+  <h2>Robust Hadamard Autoencoders (Ph.D. Work)</h2>
+  <p>My doctoral research, advised by Dr. Randy Paffenroth and Dr. Diran Apelian at WPI, developed self-supervised
+    Hadamard autoencoder methods for recovering useful signal from incomplete or corrupted observations without
+    requiring clean, fully observed ground-truth data.</p>
+
+  <h4>Method</h4>
+  <p>An ordinary autoencoder learns a low-dimensional nonlinear representation from data:</p>
+
+  <div class="fig-row">
+    <figure class="photo-fig">
+      <img src="assets/mnist_missing_noisy.jpg" alt="MNIST digits with random missing blocks (gray squares) and salt-and-pepper noise">
+      <figcaption>Training data: MNIST corrupted with missing blocks and noise &mdash; no clean version is ever shown to the network.</figcaption>
+    </figure>
+    <figure class="photo-fig">
+      <img src="assets/autoencoder_background.jpg" alt="Autoencoder architecture diagram: input, hidden layer, reconstruction, with reconstruction cost">
+      <figcaption>An autoencoder becomes non-trivial once its hidden layer is both low-dimensional and non-linear.</figcaption>
+    </figure>
+  </div>
+
+  <p>Robust Principal Component Analysis (RPCA), in contrast, decomposes observations into structured low-rank
+    and sparse components:</p>
+
+  <figure class="photo-fig">
+    <img src="assets/rpca.jpg" alt="RPCA decomposition: X = L + S, low-rank plus sparse, with the optimization objective">
+    <figcaption>Robust PCA separates data X into a low-rank component L and a sparse outlier component S.</figcaption>
+  </figure>
+
+  <p>The robust deep autoencoder replaces the linear low-rank representation with a nonlinear learned
+    representation. The self-supervised approach masks portions of the observed data and trains the model to
+    predict hidden information from the remaining visible information:</p>
+
+  <figure class="photo-fig">
+    <img src="assets/self_supervised_setup.jpg" alt="Left: robust deep autoencoder combining non-linearity with RPCA outlier detection. Right: self-supervised learning predicting hidden parts of input from visible parts">
+    <figcaption>Left: a robust deep autoencoder combines an autoencoder's non-linearity with RPCA's outlier detection. Right: self-supervision predicts hidden input (gray) from visible input (green).</figcaption>
+  </figure>
+
+  <p>The final Robust Hadamard Autoencoder objective combines masked reconstruction of observed, uncorrupted
+    entries with a sparse corruption penalty:</p>
+
+  <figure class="photo-fig">
+    <img src="assets/rha_loss_function.jpg" alt="RHA loss function: minimize the norm of (X minus S) minus D(E(X)), masked by omega, plus lambda times the L1 norm of S">
+    <figcaption>The final RHA training objective, combining masked reconstruction with sparse-outlier separation.</figcaption>
+  </figure>
+
+  <h4>Blind Image Denoising &amp; Inpainting</h4>
+  <p>The framework was evaluated on MNIST and CIFAR-10 under severe corruption settings &mdash; simultaneous salt-and-pepper noise and random 10&times;10 missing blocks &mdash; training directly on corrupted data with no access to clean images, and compared against four specific baselines: a standard autoencoder (SAE), a variational autoencoder (VAE), the original Robust Deep Autoencoder (RDAE), and a state-of-the-art GAN-based inpainting method, the Context Encoder (CE).</p>
+
+  <table class="results">
+    <tr><th>Corruption</th><th>SAE</th><th>VAE</th><th>RDAE</th><th>CE</th><th>RHA</th></tr>
+    <tr><td>10</td><td class="num">0.02992</td><td class="num">0.06718</td><td class="num">0.01895</td><td class="num">0.01763</td><td class="num"><strong>0.01601</strong></td></tr>
+    <tr><td>70</td><td class="num">0.05672</td><td class="num">0.10521</td><td class="num">0.04795</td><td class="num">0.06176</td><td class="num"><strong>0.03917</strong></td></tr>
+    <tr><td>350</td><td class="num">0.27894</td><td class="num">0.19901</td><td class="num">0.15712</td><td class="num">0.45005</td><td class="num"><strong>0.13724</strong></td></tr>
+  </table>
+  <p style="font-size:13px; color:var(--muted); margin-top:-4px;">Lower values indicate better reconstruction
+    error (RMSE). RHA outperforms all four baselines at every corruption level shown &mdash; notably, RHA beats
+    CE even though CE is trained with the clean ground-truth image as a reference target, while RHA never sees
+    one.</p>
+
+  <figure class="photo-fig">
+    <img src="assets/rha_cifar_decomposition.jpg" alt="Figure 9 from the paper: three panels at lambda values 0.0001, 50, and 5000, each showing rows of Original, Noisy, Low-Rank, and Sparse for six CIFAR-10 sample images">
+    <figcaption>Figure 9 from the paper: CIFAR-10 reconstructions at three values of &lambda;. Too small a &lambda; (left) pushes real image content into the sparse component; too large (right) leaves noise in the low-rank reconstruction and the sparse component collapses to nothing. The middle setting (&lambda;=50) correctly isolates the noise and missing block into the sparse component while recovering a clean low-rank image.</figcaption>
+  </figure>
+
+  <h4>Ultra-Sparse Social Network Inference</h4>
+  <p>With Dr. Gunjan Mahindre and Dr. Anura Jayasumana at Colorado State University, I applied pretrained Hadamard
+    autoencoders to infer missing pairwise distances in extremely sparse social-network data.</p>
+  <p>Models were pretrained on synthetic Barab&aacute;si&ndash;Albert and power-law cluster graphs and evaluated
+    on networks including the Virgili email network (1,133 nodes), Facebook (4,039 nodes), and train-bombing
+    (64 nodes). At sampling levels below 1% of true distance measurements, the approach substantially
+    outperformed a deterministic low-rank matrix-completion baseline.</p>
+
+  <figure class="photo-fig">
+    <img src="assets/ha_vs_lmc_facebook.jpg" alt="Chart: pretrained Hadamard autoencoder mean error vs percentage of Facebook network distances sampled, compared against low-rank matrix completion and baselines">
+    <figcaption>The pretrained Hadamard autoencoder (orange) tracks well below low-rank matrix completion (blue) as the fraction of observed Facebook-network distances shrinks.</figcaption>
+  </figure>
+
+  <h4>Manufacturing Sensor Data</h4>
+  <p>In collaboration with the UC Irvine Advanced Casting Research Center (ACRC) and Mercury Marine, the
+    framework was applied to missing values in industrial IoT sensor data from aluminum high-pressure die
+    casting. The data contained high levels of missingness with varying patterns, reflecting sensor failures,
+    network connectivity issues, and human error. A related ACRC collaboration with Dr. Randy Paffenroth, Dr. Diran
+    Apelian, and Dr. Ning Sun tackled a companion problem in the same foundry data: severe class imbalance in
+    casting-quality labels and identifying which process parameters most influence quality.</p>
+
+  <div class="fig-row">
+    <figure class="photo-fig">
+      <img src="assets/manufacturing_class_imbalance.png" alt="Bar charts showing casting quality class populations before and after data balancing, with the defective group at only 6% of the original data">
+      <figcaption>Casting quality classes before (a) and after (b) data balancing &mdash; defective parts started at just 6% of the dataset.</figcaption>
+    </figure>
+    <figure class="photo-fig">
+      <img src="assets/manufacturing_feature_importance.png" alt="Bar charts ranking process feature importance for predicting casting quality, from XGBoost and Random Forest, both ranking riser density highest">
+      <figcaption>Feature importance for predicting casting quality: riser density and foundry environmental conditions ranked highest.</figcaption>
+    </figure>
+  </div>
+
+  <h4>Finance</h4>
+  <p>With Dr. Nitish Bahadur and Dr. Randy Paffenroth, applied the same robust dimension-estimation approach to intraday
+    financial trading data (work in progress): estimating the intrinsic dimensionality of 1-minute stock returns
+    despite missing entries, and comparing three ways of handling those gaps &mdash; replacing missing returns
+    with zero, dropping rows with missing returns, and replacing with the column mean &mdash; via the normalized
+    singular-value spectrum.</p>
+
+  <figure class="photo-fig">
+    <img src="assets/finance_dimension_estimation.png" alt="Left: heatmap of intraday 1-minute stock returns with missing data shown in black. Right: normalized singular value spectrum comparing three missing-data handling methods against a 1% threshold">
+    <figcaption>Left: intraday 1-minute returns for 30 stocks (black = missing data). Right: the three missing-data handling methods converge to a similar estimated intrinsic dimension.</figcaption>
+  </figure>
+
+  <h2>3D LiDAR Point Cloud Classification with Product Coefficients</h2>
+  <p>With Dr. Patricia Medina (CUNY), extended a measure-theoretic feature-engineering approach for classifying 3D
+    LiDAR point clouds (ground, trunk, canopy) using product coefficients &mdash; descriptors computed on a
+    dyadic partitioning of each point's local neighborhood that capture geometric structure beyond the raw
+    (x, y, z) coordinates.</p>
+
+  <figure class="photo-fig">
+    <img src="assets/lidar_fig2_returns.jpg" alt="Diagram of a LiDAR pulse reflecting off a tree's foliage, branches, and trunk, producing multiple returns recorded as amplitude over time">
+    <figcaption>A single LiDAR pulse can reflect off a tree's canopy, branches, and trunk before reaching the ground, producing multiple returns.</figcaption>
+  </figure>
+
+  <p>Part II of this work replaces the original PCA-based dimensionality reduction with a PyTorch autoencoder
+    over the enriched feature space, paired with KNN and Random Forest classifiers.</p>
+
+  <figure class="photo-fig">
+    <img src="assets/lidar_fig6_f1chart.jpg" alt="Line chart of F1-macro score vs number of features/components for four methods: AE Direct, AE to KNN, Nystroem to KNN, and PCA to KNN">
+    <figcaption>F1-macro as more product-coefficient features are added: autoencoder-based approaches substantially outperform PCA-based dimensionality reduction at every feature count.</figcaption>
+  </figure>
+
+  <p>Result: autoencoder-based dimensionality reduction paired with KNN reached an F1-macro of 0.95 &mdash; up
+    from roughly 0.58 for the original PCA&rarr;KNN approach.</p>
+
+  <h2>Video &amp; Image Datasets for Depression Assessment (Scoping Review)</h2>
+  <p>With Dr. ML Tlachac, Mila Boyer-Martinez, and Dr. Michael Heinz, conducted a scoping review cataloging every
+    observational video/image dataset used for automated depression assessment &mdash; screening 665 studies
+    down to 63 unique datasets, since most automated-depression research reanalyzes the same handful of small,
+    low-diversity datasets.</p>
+
+  <figure class="photo-fig">
+    <img src="assets/dep_fig1_screening.jpg" alt="Flow diagram showing the study screening process: 665 studies screened down to 259 relevant studies down to 63 unique datasets">
+    <figcaption>Screening process: 665 studies screened down to 63 unique datasets.</figcaption>
+  </figure>
+
+  <p>Of the 63 datasets identified: 67% used facial video, data was collected across 18 countries (China most
+    common), and among datasets reporting participant gender, women made up the majority in 65% of them.</p>
+
+  <h2>Predicting Permafrost Thaw Risk from Arctic LiDAR Data</h2>
+  <p><em>Ongoing collaboration with Dr. Patricia Medina (CUNY).</em></p>
+  <p>Permafrost is ground that has remained frozen for at least two consecutive years. A shallow "active layer"
+    above it thaws each summer and refreezes each winter, while the permafrost itself can be ice-rich, storing
+    large amounts of frozen water and organic material. Rising temperatures deepen the active layer and accelerate
+    thaw &mdash; a process worth tracking because permafrost underlies around 15% of land area in the Northern
+    Hemisphere (NASA), the frozen soils store large amounts of carbon, and thawing can drive erosion, land
+    subsidence, ecosystem change, and in some regions methane emissions from microbial activity in newly exposed
+    organic material.</p>
+
+  <figure class="photo-fig">
+    <img src="https://assets.science.nasa.gov/dynamicimage/assets/science/cds/kids/nasa-kids-science/earth/what-is-permafrost/permafrost3.png?w=899&amp;h=650&amp;fit=clip&amp;crop=faces%2Cfocalpoint" alt="A block of thawed permafrost with vegetation on top that broke off and fell into the ocean">
+    <figcaption>A block of thawing permafrost that fell into the ocean on Alaska's Arctic Coast. Credit: U.S. Geological Survey.</figcaption>
+  </figure>
+
+  <p>The planned approach asks a more basic question than "which classifier performs best": which mathematical
+    representations of heterogeneous environmental data actually preserve the information needed to identify
+    permafrost condition and thaw vulnerability? A LiDAR point cloud retains detailed 3D geometric information,
+    while a digital elevation model (DEM) replaces that geometry with values on a spatial grid, and multispectral
+    or environmental measurements introduce still other spatial and statistical structures &mdash; each format
+    encodes landscape information differently, and most prior work converts LiDAR down to a handful of standard
+    terrain summaries (elevation, slope, aspect, curvature) before it ever reaches a classifier, which necessarily
+    discards geometric detail.</p>
+
+  <p>Two objectives follow from that: first, testing whether richer geometric representations derived directly
+    from the LiDAR point cloud &mdash; building on the product-coefficient methodology above &mdash; provide
+    discriminatory information beyond standard DEM and environmental variables, and whether that holds up when
+    training and testing data are geographically separated (cross-regional transferability is a known weak point
+    in this literature, per Thaler et al. 2023 and the broader survey by Greene et al. 2026). Second, investigating
+    <strong>active learning</strong> as a way to handle sparse, unevenly distributed permafrost labels &mdash;
+    and specifically, whether changing the mathematical representation of the LiDAR data changes which locations
+    an active-learning procedure identifies as most informative to label next.</p>
+
+  <div class="fig-row">
+    <figure class="photo-fig">
+      <img src="https://assets.science.nasa.gov/dynamicimage/assets/science/cds/kids/nasa-kids-science/earth/what-is-permafrost/permafrost1.png?w=974&amp;h=583&amp;fit=clip&amp;crop=faces%2Cfocalpoint" alt="Aerial photo of Alaskan tundra showing polygon-shaped ground patterns that indicate thawing permafrost">
+      <figcaption>Much of the Alaskan tundra is permafrost; the polygon shapes are a sign it's thawing. Credit: NASA/JPL-Caltech/Charles Miller.</figcaption>
+    </figure>
+    <figure class="photo-fig">
+      <img src="https://assets.science.nasa.gov/dynamicimage/assets/science/cds/kids/nasa-kids-science/earth/what-is-permafrost/permafrost2.png?w=974&amp;h=729&amp;fit=clip&amp;crop=faces%2Cfocalpoint" alt="Labeled cross-section of soil showing the active layer, permafrost, and an ice wedge">
+      <figcaption>The layers of permafrost: active layer, permafrost, and an ice wedge. Credit: Benjamin Jones, USGS (public domain).</figcaption>
+    </figure>
+  </div>
+
+  <p>We have assembled LiDAR point-cloud and DEM data and are formulating the classification problem now. A
+    longer-term direction is extending the framework from static classification to temporal state estimation as
+    repeated LiDAR observations of the same landscape become available, connecting to Kalman-filter&ndash;style
+    data-assimilation approaches already used elsewhere in permafrost modeling.</p>
+
+  <p style="font-size:13.5px; color:var(--muted);">Data source: <a href="https://www.usgs.gov/faqs/what-lidar-data-and-where-can-i-download-it" target="_blank" rel="noopener">USGS LiDAR data</a>.</p>
+
+  <p style="margin-top:24px;"><a href="publications.html">View publications and research outputs &rarr;</a></p>
+</div>
+
+<footer>
+  <div class="wrap">&copy; 2026 Rasika Karkare.</div>
+</footer>
+
+</body>
+</html>
