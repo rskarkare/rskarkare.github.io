@@ -79,9 +79,11 @@ figure.photo-fig figcaption { font-family: Arial, Helvetica, sans-serif; font-si
 .fig-row figure.photo-fig { margin: 0; flex: 1 1 0; min-width: 0; }
 @media (max-width: 620px) { .fig-row { flex-direction: column; } }
 
-.paper-links { font-family: Arial, Helvetica, sans-serif; font-size: 13.5px; color: var(--muted); margin: -4px 0 14px; }
-ul.paper-links { margin-top: -10px; }
-ul.paper-links li { margin-bottom: 3px; }
+.paper-links { font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: var(--text);
+  background: #eef3fb; border-left: 3px solid var(--link); padding: 8px 12px; margin: 4px 0 16px; }
+p.paper-links:has(+ ul.paper-links) { margin-bottom: 0; padding-bottom: 2px; }
+ul.paper-links { margin-top: 0; padding-left: 32px; padding-top: 2px; }
+ul.paper-links li { margin-bottom: 4px; }
 
 .pub { margin: 0 0 14px; padding-bottom: 14px; border-bottom: 1px solid var(--rule); }
 .pub:last-child { border-bottom: none; }
