@@ -79,6 +79,10 @@ figure.photo-fig figcaption { font-family: Arial, Helvetica, sans-serif; font-si
 .fig-row figure.photo-fig { margin: 0; flex: 1 1 0; min-width: 0; }
 @media (max-width: 620px) { .fig-row { flex-direction: column; } }
 
+.paper-links { font-family: Arial, Helvetica, sans-serif; font-size: 13.5px; color: var(--muted); margin: -4px 0 14px; }
+ul.paper-links { margin-top: -10px; }
+ul.paper-links li { margin-bottom: 3px; }
+
 .pub { margin: 0 0 14px; padding-bottom: 14px; border-bottom: 1px solid var(--rule); }
 .pub:last-child { border-bottom: none; }
 .pub .status { font-family: Arial, sans-serif; font-size: 12px; color: var(--muted); }

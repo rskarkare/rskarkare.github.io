@@ -24,7 +24,10 @@
   <p class="page-sub">My research focuses on LLM evaluation, trustworthy and responsible AI, privacy-preserving
     multimodal analytics, and robust machine learning. Across these areas, I study how AI systems can learn from
     imperfect information, generate useful and reliable outputs, and preserve meaningful information while
-    respecting privacy and other constraints.</p>
+    respecting privacy and other constraints. I am also applying this work to
+    <a href="#sustainability">environmental and sustainability problems</a>, including
+    <a href="#tak">verifiable provenance tracing for forestry supply chains</a> and
+    <a href="#permafrost">permafrost thaw risk prediction</a>.</p>
 
   <h2>LLM Evaluation, RAG, and Fine-Tuning</h2>
   <p>My current LLM evaluation work investigates how different strategies affect the quality, reliability, and
@@ -297,6 +300,7 @@
 
   <h4>Blind Image Denoising &amp; Inpainting</h4>
   <p>The framework was evaluated on MNIST and CIFAR-10 under severe corruption settings &mdash; simultaneous salt-and-pepper noise and random 10&times;10 missing blocks &mdash; training directly on corrupted data with no access to clean images, and compared against four specific baselines: a standard autoencoder (SAE), a variational autoencoder (VAE), the original Robust Deep Autoencoder (RDAE), and a state-of-the-art GAN-based inpainting method, the Context Encoder (CE).</p>
+  <p class="paper-links"><strong>Paper:</strong> <a href="https://arxiv.org/abs/2101.10876" target="_blank" rel="noopener">Blind Image Denoising and Inpainting Using Robust Hadamard Autoencoders</a> &mdash; arXiv:2101.10876, 2021</p>
 
   <table class="results">
     <tr><th>Corruption</th><th>SAE</th><th>VAE</th><th>RDAE</th><th>CE</th><th>RHA</th></tr>
@@ -321,6 +325,11 @@
     on networks including the Virgili email network (1,133 nodes), Facebook (4,039 nodes), and train-bombing
     (64 nodes). At sampling levels below 1% of true distance measurements, the approach substantially
     outperformed a deterministic low-rank matrix-completion baseline.</p>
+  <p class="paper-links"><strong>Papers:</strong></p>
+  <ul class="paper-links">
+    <li><a href="https://ieeexplore.ieee.org/abstract/document/9314769/" target="_blank" rel="noopener">Inference in Social Networks from Ultra-Sparse Distance Measurements via Pretrained Hadamard Autoencoders</a> &mdash; IEEE LCN, 2020</li>
+    <li><a href="https://ieeexplore.ieee.org/abstract/document/9671784/" target="_blank" rel="noopener">A Pre-training Oracle for Predicting Distances in Social Networks</a> &mdash; IEEE BigData, 2021 (<a href="https://arxiv.org/abs/2106.03233" target="_blank" rel="noopener">arXiv</a>)</li>
+  </ul>
 
   <figure class="photo-fig">
     <img src="assets/ha_vs_lmc_facebook.jpg" alt="Chart: pretrained Hadamard autoencoder mean error vs percentage of Facebook network distances sampled, compared against low-rank matrix completion and baselines">
@@ -334,6 +343,12 @@
     network connectivity issues, and human error. A related ACRC collaboration with Dr. Randy Paffenroth, Dr. Diran
     Apelian, and Dr. Ning Sun tackled a companion problem in the same foundry data: severe class imbalance in
     casting-quality labels and identifying which process parameters most influence quality.</p>
+  <p class="paper-links"><strong>Papers:</strong></p>
+  <ul class="paper-links">
+    <li><a href="https://link.springer.com/article/10.1007/s40192-022-00254-7" target="_blank" rel="noopener">Self-Supervised Deep Hadamard Autoencoders for Treating Missing Data: A Case Study in Manufacturing</a> &mdash; Integrating Materials and Manufacturing Innovation, 2022</li>
+    <li><a href="https://link.springer.com/article/10.1007/s40962-020-00506-2" target="_blank" rel="noopener">Machine Learning Pathway for Harnessing Knowledge and Data in Material Processing</a> &mdash; International Journal of Metalcasting, 2021</li>
+    <li><a href="https://link.springer.com/article/10.1007/s40192-020-00185-1" target="_blank" rel="noopener">Model Selection and Evaluation for Machine Learning: Deep Learning in Materials Processing</a> &mdash; Integrating Materials and Manufacturing Innovation, 2020</li>
+  </ul>
 
   <div class="fig-row">
     <figure class="photo-fig">
@@ -352,6 +367,7 @@
     despite missing entries, and comparing three ways of handling those gaps &mdash; replacing missing returns
     with zero, dropping rows with missing returns, and replacing with the column mean &mdash; via the normalized
     singular-value spectrum.</p>
+  <p class="paper-links"><strong>Paper:</strong> <em>Robust Dimension Estimation and its Applications</em> &mdash; ICAIF'21 Workshop on NLP and Network Analysis in Financial Applications</p>
 
   <figure class="photo-fig">
     <img src="assets/finance_dimension_estimation.png" alt="Left: heatmap of intraday 1-minute stock returns with missing data shown in black. Right: normalized singular value spectrum comparing three missing-data handling methods against a 1% threshold">
@@ -363,6 +379,7 @@
     LiDAR point clouds (ground, trunk, canopy) using product coefficients &mdash; descriptors computed on a
     dyadic partitioning of each point's local neighborhood that capture geometric structure beyond the raw
     (x, y, z) coordinates.</p>
+  <p class="paper-links"><strong>Paper:</strong> <a href="https://arxiv.org/abs/2510.15219" target="_blank" rel="noopener">Integrating Product Coefficients for Improved 3D LiDAR Data Classification (Part II)</a> &mdash; arXiv:2510.15219, 2025; ICDMAI 2026</p>
 
   <figure class="photo-fig">
     <img src="assets/lidar_fig2_returns.jpg" alt="Diagram of a LiDAR pulse reflecting off a tree's foliage, branches, and trunk, producing multiple returns recorded as amplitude over time">
@@ -394,7 +411,69 @@
   <p>Of the 63 datasets identified: 67% used facial video, data was collected across 18 countries (China most
     common), and among datasets reporting participant gender, women made up the majority in 65% of them.</p>
 
-  <h2>Predicting Permafrost Thaw Risk from Arctic LiDAR Data</h2>
+  <h2 id="sustainability">Environmental &amp; Sustainability Applications</h2>
+  <p>A growing part of my current work applies data science and trustworthy-AI methods to environmental and
+    sustainability problems, where the central challenges &mdash; incomplete data, verifying where information
+    came from, and drawing reliable conclusions across locations &mdash; overlap closely with my methodological
+    research. Two ongoing projects are described below.</p>
+
+  <h2 id="tak">TAK: Provable Evidence Tracing for Forestry Supply Chain Traceability</h2>
+  <p><em>Ongoing project in partnership with a tree nursery.</em></p>
+  <p>Reforestation and forest-restoration efforts depend on knowing where planting stock came from and how it was
+    handled &mdash; but the record of a seedling's life, from seed lot to plant-ready stock, is often scattered
+    across paper logs and spreadsheets that are hard to audit. <strong>TAK</strong> is a provable evidence-tracing
+    application that uses <strong>blockchain technology</strong> to create a tamper-evident record of each batch's
+    lifecycle in the nursery.</p>
+
+  <p>Each batch is assigned a QR code. Whenever nursery staff scan it, the application records a new event
+    &mdash; the batch's current growth stage, <strong>who scanned it, the timestamp, and the geolocation</strong>
+    &mdash; and anchors that event to the blockchain so it cannot be silently altered afterward. Scanning the QR
+    code later returns the batch's entire history, giving a verifiable chain of custody that traces provenance
+    from <strong>seeds to seedlings</strong>.</p>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="tak-title">
+      <title id="tak-title">A seedling batch moves from seed lot through germination and growth stages to plant-ready stock; each QR scan records stage, who scanned, time, and geolocation as a tamper-evident event on a blockchain ledger</title>
+      <defs>
+        <marker id="arrowT" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L6,3 L0,6 Z" fill="#333"/>
+        </marker>
+      </defs>
+      <rect x="10" y="20" width="140" height="46" fill="#fff" stroke="#999"/>
+      <text x="80" y="48" text-anchor="middle" font-family="Arial" font-size="11" font-weight="700" fill="#1a1a1a">Seed lot</text>
+      <rect x="190" y="20" width="140" height="46" fill="#fff" stroke="#999"/>
+      <text x="260" y="48" text-anchor="middle" font-family="Arial" font-size="11" font-weight="700" fill="#1a1a1a">Germination</text>
+      <rect x="370" y="20" width="140" height="46" fill="#fff" stroke="#999"/>
+      <text x="440" y="48" text-anchor="middle" font-family="Arial" font-size="11" font-weight="700" fill="#1a1a1a">Seedling growth</text>
+      <rect x="550" y="20" width="140" height="46" fill="#fff" stroke="#999"/>
+      <text x="620" y="48" text-anchor="middle" font-family="Arial" font-size="11" font-weight="700" fill="#1a1a1a">Plant-ready stock</text>
+      <path d="M150,43 L188,43" stroke="#333" marker-end="url(#arrowT)"/>
+      <path d="M330,43 L368,43" stroke="#333" marker-end="url(#arrowT)"/>
+      <path d="M510,43 L548,43" stroke="#333" marker-end="url(#arrowT)"/>
+
+      <g font-family="Arial" font-size="9.5" fill="#555" text-anchor="start">
+        <text x="86" y="106">QR scan</text><text x="266" y="106">QR scan</text>
+        <text x="446" y="106">QR scan</text><text x="626" y="106">QR scan</text>
+      </g>
+      <g stroke="#333" stroke-dasharray="3,3">
+        <path d="M80,66 L80,140" marker-end="url(#arrowT)"/>
+        <path d="M260,66 L260,140" marker-end="url(#arrowT)"/>
+        <path d="M440,66 L440,140" marker-end="url(#arrowT)"/>
+        <path d="M620,66 L620,140" marker-end="url(#arrowT)"/>
+      </g>
+      <rect x="10" y="142" width="680" height="48" fill="#fff" stroke="#999"/>
+      <text x="350" y="162" text-anchor="middle" font-family="Arial" font-size="11" font-weight="700" fill="#1a1a1a">Blockchain ledger: tamper-evident event history per batch</text>
+      <text x="350" y="178" text-anchor="middle" font-family="Arial" font-size="9.5" fill="#555">each event: growth stage &middot; who scanned &middot; timestamp &middot; geolocation</text>
+    </svg>
+    <figcaption>Each QR scan appends a verifiable event to the batch's history, so the full seed-to-seedling provenance can be retrieved with a single scan.</figcaption>
+  </figure>
+
+  <p>The goal is traceability that supports both day-to-day nursery operations and downstream trust: buyers,
+    restoration programs, and auditors can verify a batch's origin and handling without relying on a single
+    party's records. More broadly, the project explores how verifiable data provenance can support
+    <strong>forestry supply chain transparency and sustainability</strong> applications.</p>
+
+  <h2 id="permafrost">Predicting Permafrost Thaw Risk from Arctic LiDAR Data</h2>
   <p><em>Ongoing collaboration with Dr. Patricia Medina (CUNY).</em></p>
   <p>Permafrost is ground that has remained frozen for at least two consecutive years. A shallow "active layer"
     above it thaws each summer and refreezes each winter, while the permafrost itself can be ice-rich, storing
